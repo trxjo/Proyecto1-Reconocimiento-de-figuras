@@ -27,12 +27,15 @@ Principales herramientas:
 - Python 
 - OpenCV
 - NumPy
+- Pathlib
 - Github para la creacion de ramas
 
-OpenCV se utiliza para el procesamiento de las imagenes, y obtencion de caracteristas necesarias para realizar la clasificacion.
+***OpenCV*** se utiliza para el procesamiento de las imagenes, y obtencion de caracteristas necesarias para realizar la clasificacion.
+***NumPy*** se utilizo para guardar algunos datos en matrices para poder manipularlas
+***Pathlib*** Se utilizo para trabajar con las rutas de los sistemas de archivos
 
 ## Requisitos
-Se recomienda utilizar Python en la ultima version 
+Se recomienda utilizar el ***entorno virtual*** Python en la ultima version 
 
 ### Iniciar entorno virtual en python
 ```bash
@@ -42,7 +45,7 @@ python -m venv .venv
 Activar el entorno virtual 
 En Linux/macOS:
 ```bash
-source .venv/bin/activa
+source .venv/bin/activate
 ```
 
 En Windows
@@ -50,7 +53,7 @@ En Windows
 .venv\Scripts\activate
 ```
 
-Despues instalamos las dependecias de OpenCV Y NumPy con 'pip'
+Despues instalamos las dependecias de `OpenCV` Y `NumPy` con `pip`
 ```bash
 pip install opcencv-python numpy
 ```
@@ -97,7 +100,7 @@ El programa te avisa cuando exista algun error
 - El archivo no tiene el formato esperado
 - No se detectan figuras validas
 
-**UniverdidaD Nacional Autonoma de Mexico**
+**Universidad Nacional Autonoma de Mexico**
 **Facultad de Ciencias**
 
 
