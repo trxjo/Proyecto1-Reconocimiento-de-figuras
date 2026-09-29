@@ -8,15 +8,34 @@ from deteccion.detector import detectar_figuras
 from clasificacion.clasifier import (
     obtener_contorno,
     aproximar_contorno,
-    calcular_circularidad
+    calcular_circularidad,
+    analizar_vertices,
+    calcular_relacion_aspecto,
+    clasificar_figura,
+    obtener_color,
+    rgb_a_hex
 )
 
 
-# RUTA DEL PROYECTO
+# CONFIGURACIÓN
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
-ruta = BASE_DIR / "dataset_figuras" / "01_circulo.bmp"
+ruta = (
+    BASE_DIR
+    / "dataset_figuras"
+    / "10_octagono.bmp"
+)
+
+
+# LEER IMAGEN ORIGINAL
+
+imagen = cv2.imread(str(ruta))
+
+if imagen is None:
+    raise FileNotFoundError(
+        f"No se pudo leer la imagen: {ruta}"
+    )
 
 
 # PREPROCESAMIENTO
@@ -26,62 +45,105 @@ datos = preprocesar(ruta)
 
 # DETECCIÓN
 
-figuras = detectar_figuras(datos.mascara)
+figuras = detectar_figuras(
+    datos.mascara
+)
 
 
+# RESULTADOS GENERALES
+
+print()
 print("========================================")
-print("ANÁLISIS DE FIGURAS")
+print("     PRUEBA FINAL DE CLASIFICACIÓN")
 print("========================================")
 
+print()
+print("Imagen:", ruta.name)
 print("Número de figuras:", len(figuras))
 
 
-# CLASIFICACIÓN - ANÁLISIS
+# ANALIZAR CADA FIGURA
 
-for i, figura in enumerate(figuras, start=1):
+for i, figura in enumerate(
+    figuras,
+    start=1
+):
 
-    # Obtener contorno
+    print()
+    print("----------------------------------------")
+    print(f"FIGURA {i}")
+    print("----------------------------------------")
+
+    # CONTORNO
+
     contorno = obtener_contorno(
         figura.mascara
     )
 
-    # Comprobar que encontramos un contorno
     if contorno is None:
-        print(f"\nFigura {i}: no se encontró contorno")
+
+        print("No se encontró contorno.")
+        print("Clasificación: X")
+
         continue
 
-    # Aproximar contorno
+
+    # VERTICES
+
     aproximacion = aproximar_contorno(
-        contorno
-    )
-
-    # Número de vértices
-    vertices = len(aproximacion)
-
-    # Área
-    area = cv2.contourArea(
-        contorno
-    )
-
-    # Perímetro
-    perimetro = cv2.arcLength(
         contorno,
-        True
+        0.02
     )
 
-    # Circularidad
+    vertices = len(
+        aproximacion
+    )
+
+    # CIRCULARIDAD
+
     circularidad = calcular_circularidad(
         contorno
     )
 
-   
-    # MOSTRAR RESULTADOS
 
+    # ANÁLISIS DE EPSILON
+
+    vertices_epsilon = analizar_vertices(
+        contorno
+    )
+
+
+    # RELACIÓN DE ASPECTO
+
+    aspecto = calcular_relacion_aspecto(
+        figura
+    )
+
+
+    # CLASIFICACIÓN
+
+    tipo = clasificar_figura(
+        figura
+    )
+
+
+    # COLOR
+
+    color_rgb = obtener_color(
+        imagen,
+        figura.mascara
+    )
+
+    color_hex = rgb_a_hex(
+        color_rgb
+    )
+
+
+    # MOSTRAR INFORMACIÓN
 
     print()
-    print("----------------------------------------")
-    print(f"Figura {i}")
-    print("----------------------------------------")
+    print("Información geométrica")
+    print("----------------------")
 
     print(
         "Posición:",
@@ -94,31 +156,71 @@ for i, figura in enumerate(figuras, start=1):
     )
 
     print(
-        "Área detectada:",
+        "Área:",
         figura.area
-    )
-
-    print(
-        "Área del contorno:",
-        area
-    )
-
-    print(
-        "Perímetro:",
-        perimetro
-    )
-
-    print(
-        "Vértices:",
-        vertices
-    )
-
-    print(
-        "Circularidad:",
-        circularidad
     )
 
     print(
         "Centroide:",
         figura.centroide
+    )
+
+    print(
+        "Vértices (ε=0.02):",
+        vertices
+    )
+
+    print(
+        "Circularidad:",
+        round(circularidad, 4)
+    )
+
+    print(
+        "Relación ancho/alto:",
+        round(aspecto, 4)
+    )
+
+
+    # EPSILON
+
+    print()
+    print("Vértices según epsilon")
+    print("-----------------------")
+
+    for epsilon, cantidad in (
+        vertices_epsilon.items()
+    ):
+
+        print(
+            f"ε={epsilon}: "
+            f"{cantidad} vértices"
+        )
+
+
+    # COLOR
+
+    print()
+    print("Color")
+    print("-----")
+
+    print(
+        "RGB:",
+        color_rgb
+    )
+
+    print(
+        "Hexadecimal:",
+        color_hex
+    )
+
+
+    # RESULTADO
+
+    print()
+    print("Resultado")
+    print("---------")
+
+    print(
+        "Clasificación:",
+        tipo
     )
