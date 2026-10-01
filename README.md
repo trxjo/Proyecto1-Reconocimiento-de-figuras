@@ -30,9 +30,9 @@ Principales herramientas:
 - Pathlib
 - Github para la creacion de ramas
 
-***OpenCV*** se utiliza para el procesamiento de las imagenes, y obtencion de caracteristas necesarias para realizar la clasificacion.
-***NumPy*** se utilizo para guardar algunos datos en matrices para poder manipularlas
-***Pathlib*** Se utilizo para trabajar con las rutas de los sistemas de archivos
+- ***OpenCV*** se utiliza para el procesamiento de las imagenes, y obtencion de caracteristas necesarias para realizar la clasificacion.
+- ***NumPy*** se utilizo para guardar algunos datos en matrices para poder manipularlas
+- ***Pathlib*** Se utilizo para trabajar con las rutas de los sistemas de archivos
 
 ## Requisitos
 Se recomienda utilizar el ***entorno virtual*** Python en la ultima version 
@@ -69,6 +69,11 @@ cd Proyecto1-Reconocimiento-de-figuras
 Se ejecuta
 ```bash 
 python main.py
+```
+***Nota:*** ***(Solo en Windows)***Como el proyecto usa la carpeta `src` en dado caso de que tengas ulgun problema con las rutas de las imagenes ejecuta
+en el cmd o powershel
+```cmd
+$env:PYTHONPATH = "$PWD\src"
 ```
 
 ## Clasificacion de las figuras 
